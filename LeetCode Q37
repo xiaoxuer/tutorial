@@ -1,0 +1,99 @@
+class Solution {
+public:
+    void solveSudoku(vector<vector<char>>& board) {
+        if(board.size() < 9 || board[0].size() < 9) return;
+        helper(board, 0, 0);
+    }
+    //// need to use bool here to evaluate the result and see when to stop iteration 
+    bool helper(vector<vector<char>> &board, int irow, int icol) {
+        if(irow == 9) return true;
+        int irow_2, icol_2;
+        
+        if(icol == 8) {
+            irow_2 = irow + 1;
+            icol_2 = 0;
+        } else {
+            irow_2 = irow;
+            icol_2 = icol + 1;
+        }
+        
+        if(board[irow][icol] != '.') { 
+            if(!isValid(board, irow, icol)) return false;
+            return helper(board, irow_2, icol_2);
+        }
+        
+        for(int i = 1; i <= 9; i++) { 
+            board[irow][icol] = '0' + i;
+            
+            if(isValid(board, irow, icol) && helper(board, irow_2, icol_2)) return true;
+        }
+        //the previous level can try another value from 1 -> 9 and this irow, icol will be 
+        ///called again
+        
+        board[irow][icol] = '.';
+        return false;
+        
+    }
+    
+    bool isValid(vector<vector<char>> &board, int irow, int icol) {
+         char val = board[irow][icol];
+         if(val - '0' < 1 || val - '0' > 9) return false;
+         for(int i = 0 ; i < 9; i++) {
+              if(board[irow][i] == val && i != icol) return false;
+              if(board[i][icol] == val && i != irow) return false;
+         }
+         //check 3 * 3 box
+         int irow_0 = irow / 3 * 3;
+         int icol_0 = icol / 3 * 3;
+         for(int i = irow_0; i < irow_0 + 3; i++)
+            for(int j= icol_0; j < icol_0 + 3; j++) {
+                 if(board[i][j] == val && (i != irow || j != icol)) return false;
+            }
+         return true;
+    }
+};
+
+
+self solution 
+class Solution {
+public:
+    bool is_valid(vector<vector<char>>& board, int r, int c, int val) {
+        for(int i = 0; i < 9; i++) {
+            if(board[r][i] == val + '0') return false;
+            else if(board[i][c] == val + '0') return false;
+
+        }
+        int r_start = r / 3 * 3;
+        int c_start = c / 3 * 3;
+        for(int i = 0; i < 3; i++) {
+             for(int j = 0; j < 3; j++) {
+                 if(board[r_start + i][c_start + j] == val + '0')
+                    return false;
+             }
+        }
+        return true;
+        
+    }
+    bool helper(vector<vector<char>>& board, int idx) { 
+        int row = idx / 9;
+        int col = idx % 9;
+        if(row == 9) return true;
+        if(board[row][col] != '.')
+            return helper(board, idx + 1);
+        else {
+            for(int i = 1; i <= 9; i++) {
+                if(is_valid(board, row, col, i)) {
+                    board[row][col] = i + '0';
+                    if(helper(board, idx + 1)) return true;
+                    board[row][col] = '.';
+                }
+            }
+        }
+        return false;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        int idx = 0 * 9 + 0;
+        helper(board, idx);
+    }
+    
+};
