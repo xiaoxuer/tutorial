@@ -82,3 +82,9 @@ The wait() and signal() methods of a synchronization variable tend to be hidden 
 Certainly there's overlap between the two choices. There are many scenarios where a semaphore or a condition variable (or set of condition variables) could both serve your purposes. Both semaphores and condition variables are associated with a lock object that they use to maintain mutual exclusion, but then they provide extra functionality on top of the lock for synchronizing thread execution. It's mostly up to you to figure out which one makes the most sense for your situation.
 
 That's not necessarily the most technical description, but that's how it makes sense in my head.
+
+
+
+===== Blocking Queue c++ =======
+
+https://juanchopanzacpp.wordpress.com/2013/02/26/concurrent-queue-c11/
