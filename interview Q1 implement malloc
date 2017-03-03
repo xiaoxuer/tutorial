@@ -1,1 +1,6 @@
+
+1. this is the mem management allocator 
 https://github.com/fouady/simple-malloc/blob/master/mem_management.cpp
+
+with detailed explaination
+http://arjunsreedharan.org/post/148675821737/write-a-simple-memory-allocator
