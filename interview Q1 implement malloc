@@ -10,3 +10,31 @@ http://arjunsreedharan.org/post/148675821737/write-a-simple-memory-allocator
 string copy with overlapping 
 
 http://stackoverflow.com/questions/7427596/how-to-fix-strcpy-so-that-it-detects-overlapping-strings
+
+
+void * memcpy(void * dst, void * src, size_t count)
+;       {
+;               void * ret = dst;
+;
+;               if (dst <= src || dst >= (src + count)) {
+;                       /*
+;                        * Non-Overlapping Buffers
+;                        * copy from lower addresses to higher addresses
+;                        */
+;                       while (count--)
+;                               *dst++ = *src++;
+;                       }
+;               else {
+;                       /*
+;                        * Overlapping Buffers
+;                        * copy from higher addresses to lower addresses
+;                        */
+;                       dst += count - 1;
+;                       src += count - 1;
+;
+;                       while (count--)
+;                               *dst-- = *src--;
+;                       }
+;
+;               return(ret);
+;       }
